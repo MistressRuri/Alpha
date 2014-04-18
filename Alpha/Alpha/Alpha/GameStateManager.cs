@@ -13,9 +13,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace Alpha
 {
-    /// <summary>
-    /// This is the main type for your game
-    /// </summary>
+    
     public class GameStateManager : Game
     {
 
@@ -30,6 +28,7 @@ namespace Alpha
         public static GraphicsDeviceManager x_GRAPHIC;
         public static SpriteBatch x_SPRITEBATCH;
         public static ContentManager x_CONTENT;
+        public static Viewport x_VIEWPORT;
       
         //Custom Managers
         public static InputManager m_INPUTMANAGER;
@@ -37,7 +36,11 @@ namespace Alpha
         //Containers
         public static Dictionary<string, Sprite> c_SPRITE;
         public static Dictionary<string, SpriteFont> c_FONTS;
-        public static LinkedList<GameScreen> c_STATELIST;
+        public static List<GameScreen> c_STATELIST;
+
+        //Variables
+        static GameScreen v_currentScreen;
+        
 
         public static void Main()
         {
@@ -46,86 +49,86 @@ namespace Alpha
                 MANAGER.Run();
             }
         }
-
+        
         public GameStateManager()
         {
+            
             x_GRAPHIC = new GraphicsDeviceManager(this);
             x_GRAPHIC.PreferredBackBufferWidth = 800;
             x_GRAPHIC.PreferredBackBufferHeight = 600;
+            
             x_GRAPHIC.IsFullScreen = false;
+            x_VIEWPORT = new Viewport();
             Content.RootDirectory = "Content";
         }
 
-        /// <summary>
-        /// Allows the game to perform any initialization it needs to before starting to run.
-        /// This is where it can query for any required services and load any non-graphic
-        /// related content.  Calling base.Initialize will enumerate through any components
-        /// and initialize them as well.
-        /// </summary>
+      
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-            base.Initialize();
             m_INPUTMANAGER = new InputManager();
-            c_STATELIST = new LinkedList<GameScreen>();
+            c_STATELIST = new List<GameScreen>();
+            InitScreens();
+            v_currentScreen = c_STATELIST[0];
+            base.Initialize();
         }
 
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
         protected override void LoadContent()
-        {
-        // Create a new SpriteBatch, which can be used to draw textures.
+        {           
             x_SPRITEBATCH = new SpriteBatch(GraphicsDevice);
             x_CONTENT = Content;
+            c_SPRITE = new Dictionary<string, Sprite>();
+            LoadAssets();
+            v_currentScreen.LoadAssets();
 
-            // TODO: use this.Content to load your game content here
         }
 
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// all content.
-        /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
             x_CONTENT.Unload();
         }
 
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
+           
             if (m_INPUTMANAGER["Quit"].IsDown)
                 this.Exit();
-            
-
-            // TODO: Add your update logic here
+            v_currentScreen.Update(gameTime);
             m_INPUTMANAGER.Update(gameTime);
             base.Update(gameTime);
         }
 
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // TODO: Add your drawing code here
-
+            GraphicsDevice.Clear(v_currentScreen.BackgroundColor);
+            x_SPRITEBATCH.Begin();
+            v_currentScreen.Draw(gameTime);
             base.Draw(gameTime);
+            x_SPRITEBATCH.End();
         }
 
-        private void InitScreens()
+        private void InitScreens()      // Initializes SplashScreen, TitleScreen, PauseScreen
         {
-            
+            c_STATELIST.Add(new TestScreen());
+            c_STATELIST.Add(new TestScreen1());
+            //c_STATELIST.Add(new SplashScreen());
+            c_STATELIST.Add(new TitleScreen());
+            //c_STATELIST.Add(new PauseScreen());
+        }
+
+        public static void JumpScreen(int screen)
+        {
+            v_currentScreen.UnloadAssets();
+            v_currentScreen = c_STATELIST[screen];
+            v_currentScreen.LoadAssets();
+        }
+
+        private void LoadAssets() // Global Assets
+        {
+            c_SPRITE.Add("Menu", new Sprite("Test/Menu"));
+            c_SPRITE.Add("boloLadder", new Sprite("Test/boloLadder"));
+            c_SPRITE.Add("ship1", new Sprite("Test/ship1"));
+            c_SPRITE.Add("ship2", new Sprite("Test/ship2"));
         }
 
        

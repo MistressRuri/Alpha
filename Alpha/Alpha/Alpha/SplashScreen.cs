@@ -5,11 +5,7 @@ using System.Text;
 
 namespace Alpha
 {
-    public class LevelManager
-    {
-    }
-
-    public class Level : GameScreen
+    class SplashScreen : GameScreen
     {
     }
 }
