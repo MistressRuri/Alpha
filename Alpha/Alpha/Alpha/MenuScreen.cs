@@ -3,39 +3,54 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using Microsoft.Xna.Framework;
+
 namespace Alpha
 {
-    class MenuScreen : GameScreen
+    class TitleScreen : GameScreen
     {
-    }
-
-    class TitleScreen : MenuScreen
-    {
+        Sprite background;
         public override void LoadAssets()
         {
+            background = GameStateManager.c_SPRITE["Menu"];
+            AssetConfigurations();
             base.LoadAssets();
+        }
+        public override void UnloadAssets()
+        {
+            background = null;
+            base.UnloadAssets();
         }
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
             
-            if (GameStateManager.m_INPUTMANAGER["Left"].IsDown)
-                  GameStateManager.JumpScreen(0);
+            if (GameStateManager.m_INPUTMANAGER["Enter"].IsDown)
+                  GameStateManager.ScreenSwitch(1);
+            GameStateManager.FullScreenToggle();
             base.Update(gameTime);
         }
 
         public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            GameStateManager.c_SPRITE["Menu"].Draw();
+            background.Draw();
             base.Draw(gameTime);
+        }
+
+        protected override void AssetConfigurations()
+        {
+            background.position =
+                new Vector2(GameStateManager.centerX, GameStateManager.centerY);
+            background.scale = .95f;
+            base.AssetConfigurations();
         }
     }
 
-    class PauseScreen : MenuScreen
+    class PauseScreen : GameScreen
     {
     }
 
-    class OptionScreen : MenuScreen
+    class OptionScreen : GameScreen
     {
 
     }

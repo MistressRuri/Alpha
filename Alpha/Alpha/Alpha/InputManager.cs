@@ -44,14 +44,18 @@ namespace Alpha
 
         private void AddInput()
         {
-            AddEvent("Quit");  this["Quit"].Add(Keys.Escape);
-            AddEvent("Start"); this["Start"].Add(Keys.Enter);
+            AddEvent("Escape"); this["Escape"].Add(Keys.Escape);
+            AddEvent("Enter"); this["Enter"].Add(Keys.Enter);
+            AddEvent("Full"); this["Full"].Add(Keys.F);
             AddEvent("Pause"); this["Pause"].Add(Keys.P);
-            AddEvent("Resume");this["Resume"].Add(Keys.Enter);
             AddEvent("Left");  this["Left"].Add(Keys.Left);
             AddEvent("Right"); this["Right"].Add(Keys.Right);
-            AddEvent("Jump");  this["Jump"].Add(Keys.Up);
-            AddEvent("Crouch");this["Crouch"].Add(Keys.Down);
+            AddEvent("Up");  this["Up"].Add(Keys.Up);
+            AddEvent("Down");this["Down"].Add(Keys.Down);
+            AddEvent("W"); this["W"].Add(Keys.W);
+            AddEvent("A"); this["A"].Add(Keys.A);
+            AddEvent("S"); this["S"].Add(Keys.S);
+            AddEvent("D"); this["D"].Add(Keys.D);
         }
     }
 

@@ -22,11 +22,10 @@ namespace Alpha
          * m = Manager
          * x = XNA
          * v = Variable      */
-
-
         //XNA
         public static GraphicsDeviceManager x_GRAPHIC;
         public static SpriteBatch x_SPRITEBATCH;
+        public static Effect x_EFFECTS;
         public static ContentManager x_CONTENT;
         public static Viewport x_VIEWPORT;
       
@@ -38,8 +37,12 @@ namespace Alpha
         public static Dictionary<string, SpriteFont> c_FONTS;
         public static List<GameScreen> c_STATELIST;
 
-        //Variables
+        //GameStateManager Variables
         static GameScreen v_currentScreen;
+        static bool FullScreen = false;
+
+        //Globals
+        public static float centerX, centerY;
         
 
         public static void Main()
@@ -52,13 +55,11 @@ namespace Alpha
         
         public GameStateManager()
         {
-            
             x_GRAPHIC = new GraphicsDeviceManager(this);
             x_GRAPHIC.PreferredBackBufferWidth = 800;
             x_GRAPHIC.PreferredBackBufferHeight = 600;
-            
             x_GRAPHIC.IsFullScreen = false;
-            x_VIEWPORT = new Viewport();
+            x_GRAPHIC.ApplyChanges();
             Content.RootDirectory = "Content";
         }
 
@@ -74,7 +75,12 @@ namespace Alpha
 
         protected override void LoadContent()
         {           
-            x_SPRITEBATCH = new SpriteBatch(GraphicsDevice);
+            x_SPRITEBATCH = new SpriteBatch(x_GRAPHIC.GraphicsDevice);
+            x_VIEWPORT = x_GRAPHIC.GraphicsDevice.Viewport;
+            x_VIEWPORT.Height = 600;
+            x_VIEWPORT.Width = 800;
+            centerX = x_VIEWPORT.Width / 2;
+            centerY = x_VIEWPORT.Height / 2;
             x_CONTENT = Content;
             c_SPRITE = new Dictionary<string, Sprite>();
             LoadAssets();
@@ -91,8 +97,9 @@ namespace Alpha
         protected override void Update(GameTime gameTime)
         {
            
-            if (m_INPUTMANAGER["Quit"].IsDown)
+            if (m_INPUTMANAGER["Escape"].IsDown)
                 this.Exit();
+           
             v_currentScreen.Update(gameTime);
             m_INPUTMANAGER.Update(gameTime);
             base.Update(gameTime);
@@ -100,7 +107,9 @@ namespace Alpha
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(v_currentScreen.BackgroundColor);
+            x_GRAPHIC.GraphicsDevice.Viewport = x_VIEWPORT;
+            x_GRAPHIC.GraphicsDevice.Clear(v_currentScreen.BackgroundColor);
+            
             x_SPRITEBATCH.Begin();
             v_currentScreen.Draw(gameTime);
             base.Draw(gameTime);
@@ -109,27 +118,49 @@ namespace Alpha
 
         private void InitScreens()      // Initializes SplashScreen, TitleScreen, PauseScreen
         {
-            c_STATELIST.Add(new TestScreen());
-            c_STATELIST.Add(new TestScreen1());
-            //c_STATELIST.Add(new SplashScreen());
+           // c_STATELIST.Add(new SplashScreen());
             c_STATELIST.Add(new TitleScreen());
-            //c_STATELIST.Add(new PauseScreen());
+            c_STATELIST.Add(new TemplateScreen());
+            c_STATELIST.Add(new TestScreen());
         }
 
-        public static void JumpScreen(int screen)
+        private void LoadAssets() 
+        {
+            c_SPRITE.Add("LeagueLogo", new Sprite("Test/The League Logo"));
+            c_SPRITE.Add("Menu", new Sprite("Test/GeoMenu"));
+            c_SPRITE.Add("Menu2", new Sprite("Test/Menu"));
+            c_SPRITE.Add("GreenShip", new Sprite("Test/ship1"));
+            c_SPRITE.Add("RedShip", new Sprite("Test/ship2"));
+        }
+
+        public static void FullScreenToggle()
+        {
+            if (m_INPUTMANAGER["Full"].IsDown && !FullScreen)
+                FullScreen = true;
+            if (!m_INPUTMANAGER["Full"].IsDown && FullScreen)
+            {
+                x_GRAPHIC.ToggleFullScreen();
+                FullScreen = false;
+            }
+        }
+
+        public static void ScreenSwitch(int screen)
         {
             v_currentScreen.UnloadAssets();
             v_currentScreen = c_STATELIST[screen];
             v_currentScreen.LoadAssets();
         }
 
-        private void LoadAssets() // Global Assets
+        public static void SplashDelete()
         {
-            c_SPRITE.Add("Menu", new Sprite("Test/Menu"));
-            c_SPRITE.Add("boloLadder", new Sprite("Test/boloLadder"));
-            c_SPRITE.Add("ship1", new Sprite("Test/ship1"));
-            c_SPRITE.Add("ship2", new Sprite("Test/ship2"));
+            c_STATELIST[0].UnloadAssets();
+            c_STATELIST.RemoveAt(0);
+            v_currentScreen = c_STATELIST[0];
+            v_currentScreen.LoadAssets();
         }
+
+       
+        
 
        
     }
