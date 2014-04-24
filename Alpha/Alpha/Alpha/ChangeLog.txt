@@ -1,0 +1,61 @@
+﻿
+//////////////////////////////////////////////////////////////////////////
+*
+*	The League - Geometry Wars - Clone
+*	
+*
+*
+//////////////////////////////////////////////////////////////////////////
+
+Current Team Members - GitHub ID - Contact info
+- Project Lead
+Austin I. - Blinkk - Cell: 951-206-5887
+Project File Responsibility
+- Particle Effects
+Current Assignment: Particle Collision
+
+- System Designer
+Mike Villar - macv101 - Cell: 714-869-6646
+Project File Responsibility
+- GameStateManager
+- InputManager
+- LevelManager
+Current Assignments: Framework
+
+- Visual / Audio Designer
+Eric Flowers - Flowers61 - Cell: 951-973-8308
+Project File Responsibility
+- Animation.cs
+- Sound Manager
+- Assets
+Current Assignments: Redesign Animation; Sound Manager
+
+- Background Designer
+Jacqulyn Wong - MistressRuri - Cell: 209-814-5446
+Chase Arenella - carenella1 - Cell: 949-460-3446
+Project File Responsibility
+- Camera.cs
+- Background.cs
+Current Assignments: Layering Background; Camera Control
+
+- Overseer
+Hypo Klarich - TimeWalk - Cell: 714-614-4956
+Project File Responsibility
+- Oversee Project
+- HLSL
+Current Assignments: Effects
+
+
+
+//////////////////////////////////////////////////////////////////////////
+Log Update
+
+//////////////////////////////////////////////////////////////////////////
+// Example Format --													//
+//////////////////////////////////////////////////////////////////////////
+// XNAGameEngine | Hypo Klarich | 3/11/2014								//
+// -CollisionManager.cs -Game1.cs -GameInterface.cs -GameObject.cs		//
+// -Time: 11:00am - 1:38pm = 2:38										//
+// -Notes: Collision is up and running. This is an un-optimized version //
+// but is good enough for our first few projects.						//
+//////////////////////////////////////////////////////////////////////////
