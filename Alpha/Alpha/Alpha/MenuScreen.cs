@@ -9,10 +9,10 @@ namespace Alpha
 {
     class TitleScreen : GameScreen
     {
-        Sprite background;
+        Background background;
         public override void LoadAssets()
         {
-            background = GameStateManager.c_SPRITE["Menu"];
+            background = GameStateManager.c_BGROUND["Menu"];
             AssetConfigurations();
             base.LoadAssets();
         }
@@ -39,9 +39,9 @@ namespace Alpha
 
         protected override void AssetConfigurations()
         {
-            background.position =
+            background.Position =
                 new Vector2(GameStateManager.centerX, GameStateManager.centerY);
-            background.scale = .95f;
+            background.Scale = .95f;
             base.AssetConfigurations();
         }
     }

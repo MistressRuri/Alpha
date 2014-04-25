@@ -33,7 +33,8 @@ namespace Alpha
         public static InputManager m_INPUTMANAGER;
 
         //Containers
-        public static Dictionary<string, Sprite> c_SPRITE;
+        public static Dictionary<string, GameObject> c_OBJECT;
+        public static Dictionary<string, Background> c_BGROUND;
         public static Dictionary<string, SpriteFont> c_FONTS;
         public static List<GameScreen> c_STATELIST;
 
@@ -43,7 +44,7 @@ namespace Alpha
 
         //Globals
         public static float centerX, centerY;
-        
+        private static Random _randNum = new Random();
 
         public static void Main()
         {
@@ -82,7 +83,8 @@ namespace Alpha
             centerX = x_VIEWPORT.Width / 2;
             centerY = x_VIEWPORT.Height / 2;
             x_CONTENT = Content;
-            c_SPRITE = new Dictionary<string, Sprite>();
+            c_OBJECT = new Dictionary<string, GameObject>();
+            c_BGROUND = new Dictionary<string, Background>();
             LoadAssets();
             v_currentScreen.LoadAssets();
 
@@ -119,18 +121,20 @@ namespace Alpha
         private void InitScreens()      // Initializes SplashScreen, TitleScreen, PauseScreen
         {
            // c_STATELIST.Add(new SplashScreen());
-            c_STATELIST.Add(new TitleScreen());
-            c_STATELIST.Add(new TemplateScreen());
+           // c_STATELIST.Add(new TitleScreen());
+           // c_STATELIST.Add(new TemplateScreen());
+           
             c_STATELIST.Add(new TestScreen());
         }
 
         private void LoadAssets() 
         {
-            c_SPRITE.Add("LeagueLogo", new Sprite("Test/The League Logo"));
-            c_SPRITE.Add("Menu", new Sprite("Test/GeoMenu"));
-            c_SPRITE.Add("Menu2", new Sprite("Test/Menu"));
-            c_SPRITE.Add("GreenShip", new Sprite("Test/ship1"));
-            c_SPRITE.Add("RedShip", new Sprite("Test/ship2"));
+            c_BGROUND.Add("LeagueLogo", new Background("Test/The League Logo"));
+            c_BGROUND.Add("Menu", new Background("Test/GeoMenu"));
+            c_BGROUND.Add("Menu2", new Background("Test/Menu"));
+
+            c_OBJECT.Add("GreenShip", new GameObject("Test/ship1"));
+            c_OBJECT.Add("RedShip", new GameObject("Test/ship2"));
         }
 
         public static void FullScreenToggle()

@@ -9,11 +9,11 @@ namespace Alpha
 {
     class SplashScreen : GameScreen
     {
-        Sprite background;
+        Background background;
         public override void LoadAssets()
         {
             BackgroundColor = Color.Black;
-            background = GameStateManager.c_SPRITE["LeagueLogo"];
+            background = GameStateManager.c_BGROUND["LeagueLogo"];
             AssetConfigurations();
             base.LoadAssets();
         }
@@ -40,9 +40,9 @@ namespace Alpha
 
         protected override void AssetConfigurations()
         {
-            background.position =
+            background.Position =
                 new Vector2(GameStateManager.centerX, GameStateManager.centerY);
-            background.scale = 0.6f;
+            background.Scale = 0.6f;
             base.AssetConfigurations();
         }
     }

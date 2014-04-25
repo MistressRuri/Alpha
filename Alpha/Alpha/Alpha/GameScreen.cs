@@ -37,7 +37,7 @@ namespace Alpha
          * Declare all Private Variables 
          * needed in specific ScreenClass
          */
-        Sprite ship;        //Sprite is use for tests, we need Objects that inherit from Sprites
+        GameObject ship;        //Sprite is use for tests, we need Objects that inherit from Sprites
         float speed;
         public override void LoadAssets()
         {
@@ -47,7 +47,7 @@ namespace Alpha
              * ALL TEXTURES WILL BE INITILIAZED IN GAMESTATEMANAGER 1 TIME
              *  From then on, we can reuse it using the c_Sprite Dictionary:
              */
-            ship = GameStateManager.c_SPRITE["GreenShip"]; // <----- Like that
+            ship = GameStateManager.c_OBJECT["GreenShip"]; // <----- Like that
             AssetConfigurations(); //Important - Look below for details of this function
             speed = 3.0f;
             base.LoadAssets();
@@ -99,7 +99,7 @@ namespace Alpha
          */
         protected override void AssetConfigurations()
         {
-            ship.position = new Vector2(GameStateManager.centerX,
+            ship.Position = new Vector2(GameStateManager.centerX,
                 GameStateManager.centerY);
             base.AssetConfigurations();
         }
@@ -116,7 +116,7 @@ namespace Alpha
          */
         private void Move(GameTime gameTime)
         {
-            float x = ship.position.X, y = ship.position.Y;
+            float x = ship.Position.X, y = ship.Position.Y;
             if(GameStateManager.m_INPUTMANAGER["W"].IsDown)
             {
                y -= (float)gameTime.ElapsedGameTime.TotalMilliseconds / speed;
@@ -134,46 +134,54 @@ namespace Alpha
                 x -= (float)gameTime.ElapsedGameTime.TotalMilliseconds / speed;
             }
 
-            ship.position = new Vector2(x, y);
+            ship.Position = new Vector2(x, y);
         }
     }
 #endregion
     #endregion
 
 
-    /* Use this for testing
-     * you can make another TestScreen if you want as well
-     */
+   /// <summary>
+   /// This is the TestScreen for everyone to use 
+   ///  Use Template Class as a reference if you don't understand something
+   /// </summary>
     public class TestScreen : GameScreen
     {
-        Sprite ship;
+        GameObject ship;
+        Background background;
+
         public override void LoadAssets()
         {
             BackgroundColor = Color.Navy;
-            ship = GameStateManager.c_SPRITE["RedShip"];
+            ship = GameStateManager.c_OBJECT["RedShip"];
+            background = GameStateManager.c_BGROUND["Menu"];
             AssetConfigurations();
             base.LoadAssets();
         }
         public override void Update(GameTime gameTime)
-        {
-            if (GameStateManager.m_INPUTMANAGER["Enter"].IsDown)
-                GameStateManager.ScreenSwitch(1);      
+        {           
             base.Update(gameTime);
         }
+
         public override void UnloadAssets()
         {
             ship = null;
             base.UnloadAssets();
         }
+
         public override void Draw(GameTime gameTime)
         {
+            background.Draw();
             ship.Draw();
             base.Draw(gameTime);
         }
+
         protected override void AssetConfigurations()
         {
-            ship.position = new Vector2(GameStateManager.centerX,
+            ship.Position = new Vector2(GameStateManager.centerX,
                GameStateManager.centerY);
+            background.Position = new Vector2(GameStateManager.centerX,
+                GameStateManager.centerY);
             base.AssetConfigurations();
         }
     }
