@@ -118,10 +118,16 @@ namespace Alpha
             x_SPRITEBATCH.End();
         }
 
+        /// <summary>
+        ///  EVERYTHING YOU NEED CHANGES WITHIN THE GAMESTATEMANAGER
+        ///  SHOULD BE BELOW, DON'T TOUCH ANYTHING ABOVE THIS POINT
+        /// </summary>
+
         private void InitScreens()      // Initializes SplashScreen, TitleScreen, PauseScreen
         {
            // c_STATELIST.Add(new SplashScreen());
-           // c_STATELIST.Add(new TitleScreen());
+           // c_STATELIST.Add(new TitleScreen()); <---- always 0 on the list
+           // c_STATELIST.Add(new PauseScreen()); <---- always 1 on the list
            // c_STATELIST.Add(new TemplateScreen());
            
             c_STATELIST.Add(new TestScreen());
